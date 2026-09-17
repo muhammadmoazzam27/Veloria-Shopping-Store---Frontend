@@ -1,0 +1,53 @@
+// src/components/Register.scss
+
+.register-wrapper {
+  background: #152331;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1f3a54, #152331);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #223f5b, #152331);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+  .register-card {
+    backdrop-filter: blur(10px);
+    background: rgba(247, 247, 251, 0.993);
+    max-width: 420px;
+
+    .ant-card-body {
+      padding: 1.5rem;
+
+      @media (max-width: 576px) {
+        padding: 1.2rem;
+      }
+    }
+
+    // Inputs ke darmeyan ka gap kam karne ke liye
+    .ant-form-item {
+      margin-bottom: 10px;
+    }
+
+    .ant-form-item-label {
+      padding-bottom: 2px;
+
+      >label {
+        font-weight: 500;
+        font-size: 13px;
+        color: #495057;
+      }
+    }
+
+    .ant-input-affix-wrapper,
+    .ant-input {
+      border-radius: 6px;
+    }
+
+    .ant-btn-primary {
+      transition: all 0.25s ease-in;
+
+      &:hover {
+        background-color: #073f92 !important;
+      }
+    }
+  }
+}
