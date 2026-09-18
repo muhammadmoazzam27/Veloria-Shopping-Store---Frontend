@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import { Typography } from "antd";
 
 import Sidebar from "../Sidebar/sidebar";
 import Header from "../Dashboard-Header";
 import Footer from "../Dashboard-Footer";
 import axios from "axios";
-
-const { Text } = Typography;
 
 const UserDashboard = () => {
 

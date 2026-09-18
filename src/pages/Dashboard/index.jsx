@@ -26,6 +26,7 @@ const Dashboard = () => {
       .catch((error) => {
         console.error("Error : ", error)
       })
+      
 
   }
 
@@ -37,7 +38,7 @@ const Dashboard = () => {
   return (
     <Routes>
       <Route path="/user-profile" element={<UserDashboard />}>
-        <Route index element={<HomeOverview />} />
+        <Route to="overview" element={<HomeOverview />} />
         <Route path="products" element={<Products />} />
         <Route path="orders" element={<Orders />} />
         <Route path="all/users" element={<AllUsers />} />
