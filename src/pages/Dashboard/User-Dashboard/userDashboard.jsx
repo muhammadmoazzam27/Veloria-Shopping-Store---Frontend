@@ -35,9 +35,10 @@ const UserDashboard = () => {
   }, []);
 
   if (loading) {
-    return <div>
+    <div>
       <h1 className="d-flex justify-content-center align-items-center fs-2 ">Loading Dashboard...</h1>
-    </div>;
+    </div >
+    return
   }
 
   return (

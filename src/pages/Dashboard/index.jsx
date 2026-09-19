@@ -14,7 +14,7 @@ const Dashboard = () => {
       <Route path="/user-profile" element={<UserDashboard />}>
         
         <Route element={<ProtectedRoute allowedRoles={["Customer", "Admin", "Super Admin"]} />}>
-          <Route path="orders" element={<Orders />} />
+          <Route index element={<Orders />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["Admin", "Super Admin"]} />}>
@@ -26,7 +26,7 @@ const Dashboard = () => {
           <Route path="all/users" element={<AllUsers />} />
         </Route>
 
-        <Route path="*" element={<Navigate to="orders" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
 
       </Route>
     </Routes>
