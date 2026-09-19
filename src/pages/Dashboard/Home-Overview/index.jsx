@@ -2,7 +2,9 @@ import React from 'react'
 
 const HomeOverview = () => {
   return (
-    <div>HomeOverview</div>
+    <div>
+      <h1 className='text-center'>Home Overview</h1>
+    </div>
   )
 }
 

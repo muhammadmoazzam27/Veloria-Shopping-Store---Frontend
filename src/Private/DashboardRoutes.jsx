@@ -1,15 +1,15 @@
-import { useAuthContext } from '@/hooks/AuthContext'
-import React from 'react'
+import React from 'react';
+import { Navigate, Outlet, useOutletContext } from 'react-router-dom';
 
-const DashboardProtectedRoutes = ({ Component }) => {
-    const { user } = useAuthContext();
-    const role = user.role;
+const ProtectedRoute = ({ allowedRoles }) => {
+    const context = useOutletContext();
+    const userRole = context?.userRole;
 
-    return (
-        <>
-            <Component />
-        </>
-    )
-}
+    if (!allowedRoles.includes(userRole)) {
+        return <Navigate to="/dashboard/user-profile/orders" replace />;
+    }
 
-export default DashboardProtectedRoutes
+    return <Outlet />;
+};
+
+export default ProtectedRoute;

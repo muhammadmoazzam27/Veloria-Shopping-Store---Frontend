@@ -20,7 +20,7 @@ const Sidebar = ({ showSidebar, setShowSidebar, userRole }) => {
                         (userRole === "Super Admin" || userRole === "Admin") && (
                             <>
                                 <li>
-                                    <Link to="/dashboard/user-profile" onClick={() => setShowSidebar(false)}>Dashboard Overview</Link>
+                                    <Link to="/dashboard/user-profile/overview" onClick={() => setShowSidebar(false)}>Dashboard Overview</Link>
                                 </li>
 
                                 <li>
