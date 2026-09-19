@@ -15,6 +15,7 @@ const Dashboard = () => {
         
         <Route element={<ProtectedRoute allowedRoles={["Customer", "Admin", "Super Admin"]} />}>
           <Route index element={<Orders />} />
+          <Route path='orders' element={<Orders />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["Admin", "Super Admin"]} />}>
