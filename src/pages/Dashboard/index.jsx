@@ -12,7 +12,7 @@ const Dashboard = () => {
   return (
     <Routes>
       <Route path="/user-profile" element={<UserDashboard />}>
-        
+
         <Route element={<ProtectedRoute allowedRoles={["Customer", "Admin", "Super Admin"]} />}>
           <Route index element={<Orders />} />
           <Route path='orders' element={<Orders />} />
@@ -28,7 +28,6 @@ const Dashboard = () => {
         </Route>
 
         <Route path="*" element={<Navigate to="/" replace />} />
-
       </Route>
     </Routes>
   );
