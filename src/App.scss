@@ -23,29 +23,16 @@ main {
     flex: 1 0 auto;
 }
 
-/* Table Wrapper reset */
 .custom-purple-table .ant-table-wrapper {
     padding: 0 !important;
 }
 
-/* Ant Design Title aur Footer Container Gap Fix */
 .custom-purple-table .ant-table-title {
     padding: 14px 0 !important;
     overflow: hidden;
 }
 
-/* Table Header Color Change To Purple */
 .custom-purple-table .ant-table-thead>tr>th {
-    background-color: #31069c !important;
-    /* Header ka Thoda Dark Purple Color */
+    background-color: #01085b !important;
     color: #ffffff !important;
-    border-radius: 0 !important;
 }
-
-/* Table Header active / hover status colors */
-// .custom-purple-table .an/
-
-/* Table Borders color adjustments */
-// .custom-purple-table .ant-table-container {
-//     border-color: #722ed1 !important;
-// }

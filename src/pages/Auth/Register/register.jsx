@@ -20,6 +20,8 @@ const Register = () => {
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   // Form input state
   const [state, setState] = useState(initialState);
 
@@ -57,7 +59,7 @@ const Register = () => {
     // Processing trigger
     setIsProcessing(true);
 
-    axios.post("http://localhost:8000/api/auth/register", user)
+    axios.post(`${VITE_API_BASE_URL}/auth/register`, user)
 
       .then((res) => {
         const { status, data } = res

@@ -16,7 +16,9 @@ const initialState = {
 const Login = () => {
   const navigate = useNavigate();
   const [isProcessing, setIsProcessing] = useState(false);
-  const {readProfile} = useAuthContext();
+  const { readProfile } = useAuthContext();
+
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
 
   // Form input state
   const [state, setState] = useState(initialState);
@@ -39,7 +41,7 @@ const Login = () => {
     // Processing trigger
     setIsProcessing(true);
 
-    axios.post("http://localhost:8000/api/auth/login", user)
+    axios.post(`${VITE_API_BASE_URL}/auth/login`, user)
 
       .then((res) => {
         const { status, data } = res;
@@ -58,7 +60,7 @@ const Login = () => {
           toastify(data.message || 'Invalid credentials!', "error");
         }
         else if (status == 404) {
-         return toastify(data.message || 'User not found!', "error");
+          return toastify(data.message || 'User not found!', "error");
         }
         else {
           toastify('Login failed!', "error");
