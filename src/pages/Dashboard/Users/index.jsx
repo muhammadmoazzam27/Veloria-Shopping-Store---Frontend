@@ -176,7 +176,7 @@ const AllUsers = () => {
   return (
     <div>
       <div className="custom-purple-table">
-        <Table rowKey="uid" dataSource={users} columns={columns} loading={isLoading} pagination={{ pageSize: 5 }} size='medium' bordered title={() => <div style={{ backgroundColor: '#01085b', color: '#ffffff', padding: '10px 0', fontSize: '1.25rem', textAlign: 'center', fontWeight: 'bold', margin: '-12px -16px' }}>All Users</div>} scroll={{ x: 'max-content' }} />
+        <Table rowKey="uid" dataSource={users} columns={columns} loading={isLoading} pagination={{ pageSize: 5 }} size='medium' bordered title={() => <div style={{ backgroundColor: '#09183b', color: '#ffffff', padding: '10px 0', fontSize: '1.25rem', textAlign: 'center', fontWeight: 'bold', margin: '-12px -16px' }}>All Users</div>} scroll={{ x: 'max-content' }} />
       </div>
 
       {/* Edit User Modal Popup */}

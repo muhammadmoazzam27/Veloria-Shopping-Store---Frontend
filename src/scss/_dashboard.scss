@@ -169,44 +169,8 @@ $shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 }
 
-// --- 3. Dashboard Data Table Component --- //
-.dashboard-table {
-  background: $card-bg;
-  padding: 1.5rem;
-  border-radius: 16px;
-  border: 1px solid $border-color;
-  box-shadow: $shadow-sm;
-  width: 100%;
-
-  .table-header {
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    h3 {
-      margin: 0;
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: $text-dark;
-    }
-  }
-
-  // Ant Design Table Responsive Wrapper Fix
-  .table-responsive-custom {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-
-    .ant-table-wrapper, .ant-table {
-      min-width: max-content;
-    }
-  }
-}
-
 // --- 4. Responsive Media Queries --- //
 
-// Tablet Screens (lg: 768px - 991px)
 @media (max-width: 991px) {
   .sidebar {
     width: 220px;
