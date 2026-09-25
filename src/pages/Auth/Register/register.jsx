@@ -147,9 +147,9 @@ const Register = () => {
                   </Space>
                 }
               >
-                <Select placeholder="Please Select a role" size="large">
-                  <Option value="customer">Customer / Buyer</Option>
-                  <Option value="admin">Admin / Seller</Option>
+                <Select placeholder="Please Select a role" size="large" onChange={(value) => setState((s) => ({ ...s, role: value }))}>
+                  <Option value="Customer">Customer / Buyer</Option>
+                  <Option value="Admin">Admin / Seller</Option>
                 </Select>
               </Item>
 

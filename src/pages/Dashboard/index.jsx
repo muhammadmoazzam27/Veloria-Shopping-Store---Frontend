@@ -7,6 +7,7 @@ import Orders from './Orders';
 import AllUsers from './Users';
 import HomeOverview from './Home-Overview';
 import ProtectedRoute from '@/Private/DashboardRoutes';
+import AddProduct from './add-product';
 
 const Dashboard = () => {
   return (
@@ -21,6 +22,7 @@ const Dashboard = () => {
         <Route element={<ProtectedRoute allowedRoles={["Admin", "Super Admin"]} />}>
           <Route path="overview" element={<HomeOverview />} />
           <Route path="products" element={<Products />} />
+          <Route path="add-product" element={<AddProduct />} />
         </Route>
 
         <Route element={<ProtectedRoute allowedRoles={["Super Admin"]} />}>

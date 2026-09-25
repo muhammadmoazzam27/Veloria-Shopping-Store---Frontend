@@ -40,6 +40,14 @@ const Sidebar = ({ showSidebar, setShowSidebar, userRole }) => {
                     }
 
                     {
+                        (userRole === "Super Admin" || userRole === "Admin") && (
+                            <li>
+                                <Link to="/dashboard/user-profile/add-product" onClick={() => setShowSidebar(false)}>Add Product</Link>
+                            </li>
+                        )
+                    }
+
+                    {
                         (userRole === "Super Admin") && (
                             <li>
                                 <Link to="/dashboard/user-profile/all/users" onClick={() => setShowSidebar(false)}>All Users</Link>
