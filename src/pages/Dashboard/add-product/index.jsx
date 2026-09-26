@@ -45,7 +45,7 @@ const AddProduct = () => {
     }
   }, [previewUrl])
 
-  
+
   const handleChange = (e) => setState((s) => ({ ...s, [e.target.name]: e.target.value }))
 
   const handleSubmit = async (e) => {
@@ -154,8 +154,8 @@ const AddProduct = () => {
                       <input type="file" className='form-control' name='file' onChange={handleImageChange} />
                       {previewUrl && (
                         <div className="mt-3 position-relative d-inline-block">
-                          <img  src={previewUrl}  alt="Product Preview"  className="img-thumbnail rounded"  style={{ maxWidth: '200px', maxHeight: '180px', objectFit: 'cover' }}/>
-                          <button  type="button"  className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle"  onClick={handleRemoveImage}  style={{ width: '24px', height: '24px', padding: 1, lineHeight: 1 }}  title="Remove Image">
+                          <img src={previewUrl} alt="Product Preview" className="img-thumbnail rounded" style={{ maxWidth: '200px', maxHeight: '180px', objectFit: 'cover' }} />
+                          <button type="button" className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle" onClick={handleRemoveImage} style={{ width: '24px', height: '24px', padding: 1, lineHeight: 1 }} title="Remove Image">
                             &times;
                           </button>
                         </div>
