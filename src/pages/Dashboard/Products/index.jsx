@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Modal, Popover, Space, Table, Tag, Form, Input, Select } from 'antd'
+import { Button, Popconfirm, Modal, Popover, Space, Table, Tag, Form, Input, Select, Image } from 'antd'
 import axios from 'axios';
 import "@/config/global";
 
@@ -79,7 +79,7 @@ const Products = () => {
   const getAllProducts = () => {
 
     setIsLoading(true);
-    
+
     axios.get(`${VITE_API_BASE_URL}/products/get/all/products`, { headers: { Authorization: `Bearer ${token}` } })
 
       .then((res) => {
@@ -104,16 +104,10 @@ const Products = () => {
 
   const columns = [
     {
-      title: 'Admin ID',
-      dataIndex: 'uid',
-      key: 'uid',
-      render: (uid) => <Tag>{uid}</Tag>,
-    },
-    {
-      title: 'Product ID',
-      dataIndex: 'id',
-      key: 'id',
-      render: (id) => <Tag>{id}</Tag>,
+      title: 'Image',
+      dataIndex: 'imageURL',
+      render: (imageURL) => imageURL ? (<Image src={imageURL} width={60} height={40} style={{ border: "1px solid #bdc3c7", borderRadius: 4 }} />) : (<span>NO Image</span>),
+      key: 'imageURL',
     },
     {
       title: 'Title',
@@ -128,6 +122,7 @@ const Products = () => {
     {
       title: 'Price',
       dataIndex: 'price',
+      render: (price) => <span>{price} $</span>,
       key: 'price',
     },
     {
@@ -154,6 +149,18 @@ const Products = () => {
         return <Tag color={color}>{role}</Tag>;
       },
       key: 'user_role',
+    },
+    {
+      title: 'Admin ID',
+      dataIndex: 'uid',
+      key: 'uid',
+      render: (uid) => <Tag>{uid}</Tag>,
+    },
+    {
+      title: 'Product ID',
+      dataIndex: 'id',
+      key: 'id',
+      render: (id) => <Tag>{id}</Tag>,
     },
     {
       title: 'Action',
@@ -196,9 +203,15 @@ const Products = () => {
       <div className="custom-purple-table">
         <Table rowKey="id" dataSource={products} columns={columns} loading={isLoading} pagination={{ pageSize: 5 }} size='medium' bordered title={() => <div style={{ backgroundColor: '#09183b', color: '#ffffff', padding: '10px 0', fontSize: '1.25rem', textAlign: 'center', fontWeight: 'bold', margin: '-12px -16px' }}>All Products</div>} scroll={{ x: 'max-content' }} />
       </div>
+
       <div>
         {/* Edit User Modal Popup */}
-        <Modal title="Update Product" open={isModalOpen} onCancel={() => setIsModalOpen(false)} onOk={() => form.submit()} confirmLoading={isSubmitting} okText="Update">
+        <Modal
+          style={{ top: 20, bottom: 20 }}
+          styles={{ body: { maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', paddingRight: '4px' } }}
+          title={<div style={{ textAlign: 'center', width: '100%', fontSize: "20px", fontWeight: "700", padding: "8px" }}>Update Product</div>}
+          open={isModalOpen} onCancel={() => setIsModalOpen(false)} onOk={() => form.submit()} confirmLoading={isSubmitting} okText="Update"
+        >
 
           <Form form={form} layout="vertical" onFinish={handleUpdate}>
             <Item name="title" label="Title" rules={[{ required: true, message: 'Please enter product name' }]}>
@@ -224,7 +237,7 @@ const Products = () => {
             </Item>
 
             <Item name="description" label="Description" rules={[{ required: true, message: "enter a product description" }]}>
-              <Input />
+              <Input.TextArea rows={3} />
             </Item>
           </Form>
         </Modal>

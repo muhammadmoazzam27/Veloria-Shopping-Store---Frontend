@@ -192,7 +192,12 @@ const AllUsers = () => {
       </div>
 
       {/* Edit User Modal Popup */}
-      <Modal title="Update User Profile" open={isModalOpen} onCancel={() => setIsModalOpen(false)} onOk={() => form.submit()} confirmLoading={isSubmitting} okText="Update">
+      <Modal
+        style={{ top: 20, bottom: 20 }}
+        styles={{ body: { maxHeight: 'calc(100vh - 200px)', overflowY: 'auto', paddingRight: '4px' } }}
+        title={<div style={{ textAlign: 'center', width: '100%', fontSize: "20px", fontWeight: "700", padding: "8px" }}>Update User</div>}
+        open={isModalOpen} onCancel={() => setIsModalOpen(false)} onOk={() => form.submit()} confirmLoading={isSubmitting} okText="Update"
+      >
 
         <Form form={form} layout="vertical" onFinish={handleUpdate}>
           <Item name="fullName" label="Full Name" rules={[{ required: true, message: 'Please enter full name' }]}>

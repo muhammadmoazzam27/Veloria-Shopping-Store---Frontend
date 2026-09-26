@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row, Select } from 'antd'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import "@/config/global";
 import axios from 'axios';
 
@@ -17,14 +17,36 @@ const initialState = {
 const AddProduct = () => {
 
   const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
-  
+
   const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcessing] = useState(false)
+
   const [imageFile, setImageFile] = useState(null)
+  const [previewUrl, setPreviewUrl] = useState(null)
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      setImageFile(file)
+      setPreviewUrl(URL.createObjectURL(file))
+    }
+  }
+
+  const handleRemoveImage = () => {
+    setImageFile(null)
+    setPreviewUrl(null)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
+
   
   const handleChange = (e) => setState((s) => ({ ...s, [e.target.name]: e.target.value }))
-
-  const handleImageChange = (e) => setImageFile(e.target.files[0])
 
   const handleSubmit = async (e) => {
 
@@ -43,7 +65,7 @@ const AddProduct = () => {
     if (stock.trim() === "") {
       return toastify("Enter a stock quantity", "error")
     }
-    
+
     if (price.trim() === "") {
       return toastify("Enter a product price", "error")
     }
@@ -54,9 +76,20 @@ const AddProduct = () => {
 
     const product = { title, category, price, stock, description }
 
+
+    const productData = new FormData();
+
+    for (const key in product) {
+      productData.append(key, product[key])
+    }
+
+    productData.append("image", imageFile)
+    console.log("Product Data : ", productData)
+
+
     const token = localStorage.getItem("jwtToken");
 
-    setIsProcessing(true)
+    setIsProcessing(true);
 
     axios.post(`${VITE_API_BASE_URL}/products/create`, productData, { headers: { Authorization: `Bearer ${token}` } })
 
@@ -71,17 +104,8 @@ const AddProduct = () => {
         return toastify(error?.response?.data.message || "Product not created", "error")
       })
       .finally(() => {
-        setIsProcessing(false)
+        setIsProcessing(false);
       })
-
-    const productData = new FormData();
-
-    for (const key in product) {
-      productData.append(key, product[key])
-    }
-
-    productData.append("image", imageFile)
-    console.log("Product Data : ", productData)
 
   }
 
@@ -128,6 +152,14 @@ const AddProduct = () => {
                   <Col span={24}>
                     <Item label="Product Image" required>
                       <input type="file" className='form-control' name='file' onChange={handleImageChange} />
+                      {previewUrl && (
+                        <div className="mt-3 position-relative d-inline-block">
+                          <img  src={previewUrl}  alt="Product Preview"  className="img-thumbnail rounded"  style={{ maxWidth: '200px', maxHeight: '180px', objectFit: 'cover' }}/>
+                          <button  type="button"  className="btn btn-danger btn-sm position-absolute top-0 end-0 m-1 rounded-circle"  onClick={handleRemoveImage}  style={{ width: '24px', height: '24px', padding: 1, lineHeight: 1 }}  title="Remove Image">
+                            &times;
+                          </button>
+                        </div>
+                      )}
                     </Item>
                   </Col>
                   <Button type='primary' size='large' block htmlType='submit' loading={isProcessing} onClick={handleSubmit}>Publish Product</Button>
