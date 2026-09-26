@@ -9,6 +9,8 @@ const { Item } = Form;
 
 const AllUsers = () => {
 
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   const [users, setUsers] = useState([]); // Get All Users in Table
   const [isLoading, setIsLoading] = useState(false); // Table loading 
   const [isModalOpen, setIsModalOpen] = useState(false); // Screen Browser Popup
@@ -23,15 +25,19 @@ const AllUsers = () => {
 
     const token = localStorage.getItem("jwtToken");
 
-    axios.get("http://localhost:8000/api/auth/get/all/users", { headers: { Authorization: `Bearer ${token}` } })
+    axios.get(`${VITE_API_BASE_URL}/auth/get/all/users`, { headers: { Authorization: `Bearer ${token}` } })
 
       .then((res) => {
         if (res.status === 200) {
           return setUsers(res.data.allUsers);
         }
       })
-      .catch((error) => console.error("Error : ", error))
-      .finally(() => setIsLoading(false));
+      .catch((error) => {
+        console.error("Error : ", error)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      });
 
   };
 
@@ -55,7 +61,7 @@ const AllUsers = () => {
 
     try {
 
-      const res = await axios.patch(`http://localhost:8000/api/auth/update/user/single/${selectedUser.uid}`, values, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.patch(`${VITE_API_BASE_URL}/auth/update/user/single/${selectedUser.uid}`, values, { headers: { Authorization: `Bearer ${token}` } });
 
       if (res.status === 200) {
         toastify("User updated successfully!", "success");
@@ -78,7 +84,7 @@ const AllUsers = () => {
 
       const token = localStorage.getItem("jwtToken")
 
-      const res = await axios.delete(`http://localhost:8000/api/auth/delete/user/single/${record.uid}`, { headers: { Authorization: `Bearer ${token}` } })
+      const res = await axios.delete(`${VITE_API_BASE_URL}/auth/delete/user/single/${record.uid}`, { headers: { Authorization: `Bearer ${token}` } })
 
       if (res.status === 200) {
         toastify("User deleted successfully!", "success");
@@ -155,9 +161,15 @@ const AllUsers = () => {
       key: 'operation',
       render: (_, record) => (
         <Space>
-          <Popover title="Edit User">
-            <a className='p-2' onClick={() => { handleEdit(record) }}> <EditOutlined /> </a>
-          </Popover>
+          <Popconfirm
+            title="Edit User"
+            description="Are you sure"
+            onConfirm={() => handleEdit(record)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a className='p-2'> <EditOutlined /> </a>
+          </Popconfirm>
           <Popconfirm
             title="Delete User"
             description="Are you sure"

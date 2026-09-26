@@ -59,6 +59,9 @@ const Login = () => {
         if (status == 401) {
           toastify(data.message || 'Invalid credentials!', "error");
         }
+        else if (status == 403) {
+          return toastify(data.message || 'In active user !', "error");
+        }
         else if (status == 404) {
           return toastify(data.message || 'User not found!', "error");
         }

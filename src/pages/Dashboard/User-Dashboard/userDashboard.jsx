@@ -6,6 +6,9 @@ import Footer from "../Dashboard-Footer";
 import axios from "axios";
 
 const UserDashboard = () => {
+
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   const [showSidebar, setShowSidebar] = useState(false);
   const [userRole, setUserRole] = useState("");
   const [loading, setLoading] = useState(true);
@@ -13,9 +16,8 @@ const UserDashboard = () => {
   const getUser = () => {
     const token = localStorage.getItem("jwtToken");
 
-    axios.get("http://localhost:8000/api/auth/get/user/single", {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    axios.get(`${VITE_API_BASE_URL}/auth/get/user/single`, { headers: { Authorization: `Bearer ${token}` } })
+
       .then((res) => {
         const { status, data } = res;
         if (status === 200) {
@@ -27,7 +29,7 @@ const UserDashboard = () => {
       })
       .finally(() => {
         setLoading(false);
-      });
+      })
   };
 
   useEffect(() => {

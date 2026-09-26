@@ -16,10 +16,12 @@ const initialState = {
 
 const AddProduct = () => {
 
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+  
   const [state, setState] = useState(initialState)
   const [isProcessing, setIsProcessing] = useState(false)
   const [imageFile, setImageFile] = useState(null)
-
+  
   const handleChange = (e) => setState((s) => ({ ...s, [e.target.name]: e.target.value }))
 
   const handleImageChange = (e) => setImageFile(e.target.files[0])
@@ -56,7 +58,7 @@ const AddProduct = () => {
 
     setIsProcessing(true)
 
-    axios.post("http://localhost:8000/api/products/create", product, { headers: { Authorization: `Bearer ${token}` } })
+    axios.post(`${VITE_API_BASE_URL}/products/create`, productData, { headers: { Authorization: `Bearer ${token}` } })
 
       .then((res) => {
         const { status, data } = res;
@@ -72,14 +74,14 @@ const AddProduct = () => {
         setIsProcessing(false)
       })
 
-    // const productData = new FormData();
+    const productData = new FormData();
 
-    // for (const key in product) {
-    //   productData.append(key, product[key])
-    // }
+    for (const key in product) {
+      productData.append(key, product[key])
+    }
 
-    // productData.append("image", imageFile)
-    // console.log("Product Data : ", productData)
+    productData.append("image", imageFile)
+    console.log("Product Data : ", productData)
 
   }
 

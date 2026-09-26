@@ -10,6 +10,8 @@ const { Option } = Select;
 
 const Products = () => {
 
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false); // Screen Browser Popup
@@ -28,7 +30,7 @@ const Products = () => {
 
   const handleDelete = async (record) => {
 
-    const res = await axios.delete(`http://localhost:8000/api/products/delete/product/${record.id}`, { headers: { Authorization: `Bearer ${token}` } });
+    const res = await axios.delete(`${VITE_API_BASE_URL}/products/delete/product/${record.id}`, { headers: { Authorization: `Bearer ${token}` } });
 
     try {
       const { status, data } = res;
@@ -52,7 +54,7 @@ const Products = () => {
 
     setIsSubmitting(true);
 
-    const res = await axios.patch(`http://localhost:8000/api/products/update/single/product/${selectedProduct.id}`, values, { headers: { Authorization: `Bearer ${token}` } })
+    const res = await axios.patch(`${VITE_API_BASE_URL}/products/update/single/product/${selectedProduct.id}`, values, { headers: { Authorization: `Bearer ${token}` } })
 
     try {
 
@@ -77,7 +79,8 @@ const Products = () => {
   const getAllProducts = () => {
 
     setIsLoading(true);
-    axios.get("http://localhost:8000/api/products/get/all/products", { headers: { Authorization: `Bearer ${token}` } })
+    
+    axios.get(`${VITE_API_BASE_URL}/products/get/all/products`, { headers: { Authorization: `Bearer ${token}` } })
 
       .then((res) => {
         const { status, data } = res;
@@ -157,11 +160,17 @@ const Products = () => {
       key: 'operation',
       render: (_, record) => (
         <Space>
-          <Popover title="Edit User">
-            <a className='p-2' onClick={() => { handleEdit(record) }}> <EditOutlined /> </a>
-          </Popover>
           <Popconfirm
-            title="Delete User"
+            title="Edit Product"
+            description="Are you sure"
+            onConfirm={() => handleEdit(record)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <a className='p-2'> <EditOutlined /> </a>
+          </Popconfirm>
+          <Popconfirm
+            title="Delete Product"
             description="Are you sure"
             onConfirm={() => handleDelete(record)}
             okText="Yes"
