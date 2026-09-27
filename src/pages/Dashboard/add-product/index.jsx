@@ -62,11 +62,11 @@ const AddProduct = () => {
       return toastify("Select your category name", "error")
     }
 
-    if (stock.trim() === "") {
+    if (stock.trim() === "" || stock == 0) {
       return toastify("Enter a stock quantity", "error")
     }
 
-    if (price.trim() === "") {
+    if (price.trim() === "" || price == 0) {
       return toastify("Enter a product price", "error")
     }
 

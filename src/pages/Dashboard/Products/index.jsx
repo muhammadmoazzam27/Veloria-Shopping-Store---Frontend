@@ -110,7 +110,7 @@ const Products = () => {
       key: 'imageURL',
     },
     {
-      title: 'Title',
+      title: 'Product Name',
       dataIndex: 'title',
       key: 'title',
     },
