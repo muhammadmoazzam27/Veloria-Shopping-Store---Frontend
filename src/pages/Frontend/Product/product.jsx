@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Modal, Rate, Spin, Tag } from 'antd'
 import axios from 'axios'
+import { ShoppingCartOutlined } from '@ant-design/icons'
 
 const Product = () => {
+
+  const VITE_API_BASE_URL = import.meta.env.VITE_API_BASE_URL
+
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -11,13 +15,12 @@ const Product = () => {
   const [selectedProduct, setSelectedProduct] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // Fetch Products
-  useEffect(() => {
+  const showAllProducts = () => {
+
     const token = localStorage.getItem('jwtToken')
-    axios
-      .get('http://localhost:8000/api/products/get/all/products', {
-        headers: { Authorization: `Bearer ${token}` }
-      })
+
+    axios.get(`${VITE_API_BASE_URL}/products/show/all/products`, { headers: { Authorization: `Bearer ${token}` } })
+
       .then((res) => {
         setProducts(res.data.allProducts || [])
         setLoading(false)
@@ -26,6 +29,12 @@ const Product = () => {
         console.error('Error fetching products:', err)
         setLoading(false)
       })
+
+  }
+
+  // Fetch Products
+  useEffect(() => {
+    showAllProducts();
   }, [])
 
   // Modal Handlers
@@ -79,72 +88,76 @@ const Product = () => {
         {/* --- Product Grid --- */}
         <section id="product-grid">
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h2 className="fw-bold fs-3 text-dark mb-0">Our Products</h2>
-            <span className="text-muted fs-6">{products.length} Items Available</span>
+            <h2 className="fw-bold fs-1 text-dark mb-0">Our Products</h2>
+            <span className="text-muted fs-6">{products.length} Products Available</span>
           </div>
 
-          {loading ? (
-            <div className="d-flex justify-content-center align-items-center py-5">
-              <Spin size="large" tip="Loading Products..." />
-            </div>
-          ) : (
-            <div className="row g-3 g-md-4">
-              {products.map((product) => {
-                const productId = product._id || product.id
-                const pImage = product.imageURL || product.image
+          <div className="row g-3 g-md-4">
+            {products.map((product) => {
+              const productId = product._id || product.id
+              const pImage = product.imageURL || product.image
 
-                return (
-                  <div key={productId} className="col-12 col-sm-6 col-lg-4 col-xl-3">
-                    <div className="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative">
-                      
-                      {/* Category Badge */}
-                      {product.category && (
-                        <span className="badge bg-secondary position-absolute top-0 start-0 m-3 text-capitalize opacity-75">
-                          {product.category}
-                        </span>
-                      )}
+              return (
+                <div key={productId} className="col-12 col-sm-6 col-lg-4 col-xl-3">
+                  <div className="card product-card h-100 border-0 shadow-sm rounded-4 overflow-hidden position-relative">
 
-                      {/* Image Container */}
-                      <div className="card-img-wrapper d-flex align-items-center justify-content-center p-4 bg-white" style={{ height: '220px' }}>
-                        <img
-                          src={pImage}
-                          alt={product.title}
-                          className="card-img-top img-fluid h-100"
-                          style={{ objectFit: 'cover' }}
-                        />
-                      </div>
+                    {/* Category Badge */}
+                    {product.category && (
+                      <span className="badge bg-secondary position-absolute top-0 start-0 m-3 text-capitalize">
+                        {product.category}
+                      </span>
+                    )}
 
-                      {/* Card Content */}
-                      <div className="card-body d-flex flex-column p-3">
-                        <h5 className="card-title text-truncate fw-semibold text-dark fs-6 mb-2" title={product.title}>
-                          {product.title}
-                        </h5>
-
-                        <p className="card-text text-secondary small text-truncate-2 flex-grow-1 mb-3">
-                          {product.description}
-                        </p>
-
-                        {/* Price & Modal Trigger */}
-                        <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                          <span className="fs-5 fw-bold text-primary">
-                            ${product.price}
-                          </span>
-
-                          <button
-                            onClick={() => handleOpenDetails(product)}
-                            className="btn btn-outline-primary btn-sm rounded-pill px-3"
-                          >
-                            View Details
-                          </button>
-                        </div>
-                      </div>
-
+                    {/* Image Container */}
+                    <div className="card-img-wrapper d-flex align-items-center justify-content-center p-4 bg-white" style={{ height: '220px' }}>
+                      <img
+                        src={pImage}
+                        alt={product.title}
+                        className="card-img-top img-fluid h-100"
+                        style={{ objectFit: 'cover' }}
+                      />
                     </div>
+
+                    {/* Card Content */}
+                    <div className="card-body d-flex flex-column p-3">
+                      <h5 className="card-title text-truncate fw-semibold text-dark fs-6 mb-2" title={product.title}>
+                        {product.title}
+                      </h5>
+
+                      <p className="card-text text-secondary small text-truncate-2 flex-grow-1 mb-1">
+                        {product.description}
+                      </p>
+
+                        <span className="text-light postion-relative mb-4">
+                          <span className='bg-secondary position-absolute px-2 rounded opacity-75'>{product.stock}+items</span>
+                        </span>
+
+                      {/* Price & Modal Trigger */}
+                      <div className="d-flex justify-content-between align-items-center mt-auto py-2">
+                        <span className="fs-5 fw-bold text-primary">
+                          ${product.price}
+                        </span>
+
+                        <button
+                          onClick={() => handleOpenDetails(product)}
+                          className="btn btn-outline-primary btn-sm rounded-pill px-3"
+                        >
+                          View Details
+                        </button>
+                      </div>
+
+                      {/* Button Add to Cart */}
+                      <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
+                        <button className="btn btn-primary btn rounded px-3 w-100"> <ShoppingCartOutlined /> Add to Cart</button>
+                      </div>
+                    </div>
+
                   </div>
-                )
-              })}
-            </div>
-          )}
+                </div>
+              )
+            })}
+          </div>
+
         </section>
 
         {/* --- Product Details Modal --- */}
@@ -188,18 +201,6 @@ const Product = () => {
                 <h3 className="fw-bold text-dark fs-4 mb-2">
                   {selectedProduct.title}
                 </h3>
-
-                {/* Rating */}
-                {selectedProduct.rating && (
-                  <div className="d-flex align-items-center gap-2 mb-3">
-                    <Rate disabled defaultValue={selectedProduct.rating.rate || selectedProduct.rating} allowHalf style={{ fontSize: '16px' }} />
-                    {selectedProduct.rating.count && (
-                      <span className="text-muted small">
-                        ({selectedProduct.rating.count} reviews)
-                      </span>
-                    )}
-                  </div>
-                )}
 
                 {/* Price */}
                 <div className="mb-3">
