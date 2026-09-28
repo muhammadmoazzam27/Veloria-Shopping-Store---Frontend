@@ -128,22 +128,25 @@ const Product = () => {
                         {product.description}
                       </p>
 
-                        <span className="text-light postion-relative mb-4">
-                          <span className='bg-secondary position-absolute px-2 rounded opacity-75'>{product.stock}+items</span>
-                        </span>
-
-                      {/* Price & Modal Trigger */}
-                      <div className="d-flex justify-content-between align-items-center mt-auto py-2">
+                      <div className='mb-1 d-flex justify-content-between'>
                         <span className="fs-5 fw-bold text-primary">
                           ${product.price}
                         </span>
 
-                        <button
+                      </div>
+
+                      {/* Price & Modal Trigger */}
+                      <div className="d-flex justify-content-between align-items-center mt-auto py-2">
+                        <span className="text-light postion-relative mb-4">
+                          <span className='bg-secondary position-absolute px-2 rounded opacity-75'>{product.stock}+items</span>
+                        </span>
+
+                        <span
                           onClick={() => handleOpenDetails(product)}
-                          className="btn btn-outline-primary btn-sm rounded-pill px-3"
+                          className="detail-link text-decoration-underline px-3"
                         >
                           View Details
-                        </button>
+                        </span>
                       </div>
 
                       {/* Button Add to Cart */}
