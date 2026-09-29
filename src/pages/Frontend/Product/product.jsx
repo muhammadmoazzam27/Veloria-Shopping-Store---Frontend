@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Button, Modal, Rate, Spin, Tag } from 'antd'
 import axios from 'axios'
 import { ShoppingCartOutlined } from '@ant-design/icons'
+import { useCartContext } from '@/hooks/CartContext'
 
 const Product = () => {
 
@@ -10,6 +11,8 @@ const Product = () => {
 
   const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
+
+  const { addToCart } = useCartContext();
 
   // Modal State
   const [selectedProduct, setSelectedProduct] = useState(null)
@@ -22,7 +25,8 @@ const Product = () => {
     axios.get(`${VITE_API_BASE_URL}/products/show/all/products`, { headers: { Authorization: `Bearer ${token}` } })
 
       .then((res) => {
-        setProducts(res.data.allProducts || [])
+        // setProducts(res.data.allProducts || [])
+        sessionStorage.setItem("AllProducts", JSON.stringify(res.data.allProducts))
         setLoading(false)
       })
       .catch((err) => {
@@ -35,6 +39,8 @@ const Product = () => {
   // Fetch Products
   useEffect(() => {
     showAllProducts();
+    const sessionProducts = JSON.parse(sessionStorage.getItem("AllProducts"))
+    setProducts(sessionProducts)
   }, [])
 
   // Modal Handlers
@@ -87,9 +93,9 @@ const Product = () => {
 
         {/* --- Product Grid --- */}
         <section id="product-grid">
-          <div className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex justify-content-center align-items-center mb-4">
             <h2 className="fw-bold fs-1 text-dark mb-0">Our Products</h2>
-            <span className="text-muted fs-6">{products.length} Products Available</span>
+            {/* <span className="text-muted fs-6">{products.length} Products Available</span> */}
           </div>
 
           <div className="row g-3 g-md-4">
@@ -111,6 +117,7 @@ const Product = () => {
                     {/* Image Container */}
                     <div className="card-img-wrapper d-flex align-items-center justify-content-center p-4 bg-white" style={{ height: '220px' }}>
                       <img
+                        loading='lazy'
                         src={pImage}
                         alt={product.title}
                         className="card-img-top img-fluid h-100"
@@ -143,7 +150,7 @@ const Product = () => {
 
                         <span
                           onClick={() => handleOpenDetails(product)}
-                          className="detail-link text-decoration-underline px-3"
+                          className="detail-link px-3"
                         >
                           View Details
                         </span>
@@ -151,7 +158,7 @@ const Product = () => {
 
                       {/* Button Add to Cart */}
                       <div className="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
-                        <button className="btn btn-primary btn rounded px-3 w-100"> <ShoppingCartOutlined /> Add to Cart</button>
+                        <button className="btn btn-primary btn rounded px-3 w-100" onClick={() => { addToCart(product) }}> <ShoppingCartOutlined /> Add to Cart</button>
                       </div>
                     </div>
 
