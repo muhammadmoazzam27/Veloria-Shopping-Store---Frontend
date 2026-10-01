@@ -1,0 +1,39 @@
+$primary : #152331;
+$bg-footer: rgba(20, 21, 57, 0.932);
+
+@import "bootstrap/scss/bootstrap.scss";
+@import "./scss/navbar";
+@import "./scss/footer";
+@import "./scss/home";
+@import "./scss/product";
+@import "./scss/auth";
+@import "./scss/dashboard";
+@import "./scss/screen-loader";
+
+.custom-footer {
+    background-color: $bg-footer;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+.custom-purple-table .ant-table-wrapper {
+    padding: 0 !important;
+}
+
+.custom-purple-table .ant-table-title {
+    padding: 14px 0 !important;
+    overflow: hidden;
+}
+
+.custom-purple-table .ant-table-thead>tr>th {
+    background-color: #09183b !important;
+    color: #ffffff !important;
+}
